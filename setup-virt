@@ -1,0 +1,10 @@
+#
+#
+#
+virtualenv .
+source ./bin/activate
+pip install smbus2
+pip install gpiod
+
+
+

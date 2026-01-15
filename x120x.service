@@ -1,0 +1,19 @@
+#
+#	This file needs to be on /etc/systemd/system/
+#
+[Unit]
+Description=Monitor x120x ups
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User=embed
+Type=exec
+ExecStart=/home/embed/raspberry-pi-5-ups-x120x/bin/python3 -u /home/embed/raspberry-pi-5-ups-x120x/x120x.py
+ExecStopPost=sudo rm -f /tmp/X120x.pid
+Restart=always
+RestartSec=50s
+
+[Install]
+WantedBy=multi-user.target
+
