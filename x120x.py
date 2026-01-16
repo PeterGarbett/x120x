@@ -21,7 +21,7 @@ SLEEP_TIME = 60  # Time in seconds to wait between failure checks
 MONITOR_INTERVAL = 3  # Seconds between monitoring checks
 VOLTAGE_CRITICAL = 3.2  # shutdown initiation threshold
 CAPACITY_CRITICAL = 10  # shutdown initiation threshold
-OUTPUT_LIMIT = 5000
+OUTPUT_LIMIT = 5
 
 
 def find_host():
@@ -268,5 +268,11 @@ def main():
     print("Exit")
 
 
+# Hack to ensure charging only occurs when attended
+
+def disable_charging():
+    subprocess.run(["pinctrl", "set", "16", "op", "dh"])
+
 if __name__ == "__main__":
+    disable_charging()
     main()
