@@ -152,6 +152,8 @@ def main():
 
         print("Start control loop")
 
+        first = True
+
         while True:
             # If we have messages, attempt to send them
             act_on_first_item(messages, notify)
@@ -165,11 +167,19 @@ def main():
             battery_status = get_battery_status(voltage)
             capacity = readCapacity(bus, address)
 
-            if ac_power_state != ac_power_last_cycle:
-                message = f"Change of power status: Battery: {capacity:.1f}% ({battery_status}), Voltage: {voltage:.2f}V, AC Power: {'Plugged in' if ac_power_state == gpiod.line.Value.ACTIVE else 'Unplugged'}"
+            if (ac_power_state != ac_power_last_cycle) or first:
+
+                if not first:
+                    message_start = "Change of power status"
+                else:
+                    message_start = "Inital power status"
+
+                message = f"{message_start}: Battery: {capacity:.1f}% ({battery_status}), Voltage: {voltage:.2f}V, AC Power: {'Plugged in' if ac_power_state == gpiod.line.Value.ACTIVE else 'Unplugged'}"
+
                 # Queue message
                 messages.append(message)
                 print(message)  # Update local log
+                first = False
             # Display current status
 
             if OUTPUT_LIMIT < output_count:
