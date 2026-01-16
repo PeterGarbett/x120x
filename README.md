@@ -31,9 +31,16 @@ I run the service as a system user, embed, which is in groups
 gpio and i2c so I can avoid running as root. 
 
 
-setup-virt 	generate virtual environment with smbus and gpio libraries
-x120x.py	The driver
-x120x.service   Service file for the driver. Cleans up the PID file on exit 
+setup-virt 		generate virtual environment with smbus and gpio libraries
+x120x.py		The driver
+x120x.service   	Service file for the driver. Cleans up the PID file on exit 
+disable_charging.sh	Manually disable charging
+enable_charging.sh 	Manually enable charging
+
+I'm assumming its better to only enable charging when attended.
+
+
+
 
 
 
