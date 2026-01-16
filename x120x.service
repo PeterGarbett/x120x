@@ -9,7 +9,7 @@ After=network-online.target
 [Service]
 User=embed
 Type=exec
-ExecStart=/home/embed/raspberry-pi-5-ups-x120x/bin/python3 -u /home/embed/raspberry-pi-5-ups-x120x/x120x.py
+ExecStart=/home/embed/x120x/bin/python3 -u /home/embed/x120x/x120x.py
 ExecStopPost=sudo rm -f /tmp/X120x.pid
 Restart=always
 RestartSec=50s
