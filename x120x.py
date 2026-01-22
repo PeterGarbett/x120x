@@ -22,7 +22,7 @@ MONITOR_INTERVAL = 3  # Seconds between monitoring checks
 VOLTAGE_CRITICAL = 3.2  # shutdown initiation threshold
 CAPACITY_CRITICAL = 10  # shutdown initiation threshold
 CAPACITY_NOTIFY = 90.0  # Notify slight battery discharge
-CAPACITY_UPPER_LIMIT = 95
+CAPACITY_UPPER_LIMIT = 95 # Don't charge above this
 
 OUTPUT_LIMIT = 5000
 
@@ -50,6 +50,7 @@ def find_host():
 def notify(message):
     """Take a message from the queue and attempt to send it via email"""
     hostname = find_host() + " has had a power supply event"
+    print(message)
     return send_email.message_using_config(hostname, message, "", "/etc/email.config")
 
 
@@ -255,8 +256,8 @@ def main():
             if CAPACITY_UPPER_LIMIT < capacity:
                 disable_charging()
                 if not notifed_stop_charging:
-                    print("Charging disabled")
-                    messages.append("Charging disabled")
+                    message = f"Charging disabled: Battery: {capacity:.1f}% ({battery_status}), Voltage: {voltage:.2f}V, AC Power: {'Plugged in' if ac_power_state == gpiod.line.Value.ACTIVE else 'Unplugged'}"
+                    messages.append(message)
                     notifed_stop_charging = True
 
             if capacity < CAPACITY_NOTIFY and not notified:

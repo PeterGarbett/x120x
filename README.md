@@ -23,6 +23,7 @@ but I doubt if people want my email mods:
 * Shutdown at 10% with a last minute check AC power is not available
 * Improved commentary and progress messages
 * Improved output on exceptions
+* Disable charging on entry and whenever an upper limit is exceeded
 
 This makes the system behave much more like the cyberpower ones 
 I have which I handle with NUT.
@@ -38,6 +39,8 @@ disable_charging.sh	Manually disable charging
 enable_charging.sh 	Manually enable charging
 
 I'm assumming its better to only enable charging when attended.
+If charging is enabled , it will be disabled when a programmable
+limit is reached, currently 95% capacity
 
 
 
