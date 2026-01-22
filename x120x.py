@@ -21,6 +21,7 @@ SLEEP_TIME = 60  # Time in seconds to wait between failure checks
 MONITOR_INTERVAL = 3  # Seconds between monitoring checks
 VOLTAGE_CRITICAL = 3.2  # shutdown initiation threshold
 CAPACITY_CRITICAL = 10  # shutdown initiation threshold
+CAPACITY_NOTIFY = 90.0  # Notify slight battery discharge
 OUTPUT_LIMIT = 5000
 
 
@@ -153,6 +154,7 @@ def main():
         print("Start control loop")
 
         first = True
+        notified = False
 
         while True:
             # If we have messages, attempt to send them
@@ -238,6 +240,12 @@ def main():
                     if ac_power_state != gpiod.line.Value.ACTIVE:
                         call("sudo nohup shutdown -h now", shell=True)
                     break
+
+            if capacity < CAPACITY_NOTIFY and not notified:
+                message = f"Consider recharging : Battery: {capacity:.1f}% ({battery_status}), Voltage: {voltage:.2f}V, AC Power: {'Plugged in' if ac_power_state == gpiod.line.Value.ACTIVE else 'Unplugged'}"
+                messages.append(message)
+                notified = True
+
             # Wait for next monitoring interval
             time.sleep(MONITOR_INTERVAL)
 
@@ -270,8 +278,10 @@ def main():
 
 # Hack to ensure charging only occurs when attended
 
+
 def disable_charging():
     subprocess.run(["pinctrl", "set", "16", "op", "dh"])
+
 
 if __name__ == "__main__":
     disable_charging()
