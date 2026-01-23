@@ -20,9 +20,9 @@ SHUTDOWN_THRESHOLD = 3  # Number of consecutive failures required for shutdown
 SLEEP_TIME = 60  # Time in seconds to wait between failure checks
 MONITOR_INTERVAL = 3  # Seconds between monitoring checks
 VOLTAGE_CRITICAL = 3.2  # shutdown initiation threshold
-CAPACITY_CRITICAL = 10  # shutdown initiation threshold
-CAPACITY_NOTIFY = 90.0  # Notify slight battery discharge
-CAPACITY_UPPER_LIMIT = 95  # Don't charge above this
+CAPACITY_CRITICAL = 30  # shutdown initiation threshold
+CAPACITY_NOTIFY = 50.0  # Notify battery discharge
+CAPACITY_UPPER_LIMIT = 85  # Don't charge above this
 
 OUTPUT_LIMIT = 5000
 
