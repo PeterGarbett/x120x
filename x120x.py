@@ -22,7 +22,7 @@ MONITOR_INTERVAL = 3  # Seconds between monitoring checks
 VOLTAGE_CRITICAL = 3.2  # shutdown initiation threshold
 CAPACITY_CRITICAL = 10  # shutdown initiation threshold
 CAPACITY_NOTIFY = 90.0  # Notify slight battery discharge
-CAPACITY_UPPER_LIMIT = 95 # Don't charge above this
+CAPACITY_UPPER_LIMIT = 95  # Don't charge above this
 
 OUTPUT_LIMIT = 5000
 
@@ -253,7 +253,7 @@ def main():
                         call("sudo nohup shutdown -h now", shell=True)
                     break
 
-            if CAPACITY_UPPER_LIMIT < capacity:
+            if CAPACITY_UPPER_LIMIT < capacity or get_battery_status(voltage) == "Full":
                 disable_charging()
                 if not notifed_stop_charging:
                     message = f"Charging disabled: Battery: {capacity:.1f}% ({battery_status}), Voltage: {voltage:.2f}V, AC Power: {'Plugged in' if ac_power_state == gpiod.line.Value.ACTIVE else 'Unplugged'}"
